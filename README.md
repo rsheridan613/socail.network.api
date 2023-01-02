@@ -1,1 +1,1 @@
-# socail.network.api
+# social.network.api
