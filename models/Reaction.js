@@ -5,8 +5,12 @@ const reactionSchema = new Schema(
     // reactionId
     // reactionBody
     // username
-    // createdAt
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {}
 );
+
 module.exports = Reaction;

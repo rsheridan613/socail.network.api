@@ -1,9 +1,18 @@
 const { Schema, model } = require("mongoose");
+const User = require("./User");
 
 const thoughtSchema = new Schema(
   {
-    // thoughtText
-    // createdAt
+    thoughtText: {
+      type: String,
+      required: true,
+      minLength: 1,
+      maxLength: 280,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
     // username
     // reactions
   },
