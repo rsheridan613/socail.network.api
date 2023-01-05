@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const User = require("./User");
+// const User = require("./User");
 
 const thoughtSchema = new Schema(
   {
@@ -13,10 +13,28 @@ const thoughtSchema = new Schema(
       type: Date,
       default: Date.now,
     },
-    // username
-    // reactions
+    username: {
+      type: String,
+      ref: "User",
+    },
+    reactions: {
+      type: Schema.Types.ObjectId,
+      ref: "Reaction",
+    },
   },
-  {}
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  }
 );
+
+// virtual to find number of reactions
+thoughtSchema.virtuals("reactionCount").get(() => {
+  return this.friends.length;
+});
+
+const Thought = model("thought", thoughtSchema);
 
 module.exports = Thought;
