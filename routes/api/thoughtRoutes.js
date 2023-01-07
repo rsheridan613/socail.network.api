@@ -10,13 +10,13 @@ const {
 } = require("../../controllers/thoughtController");
 
 // /api/thoughts
-router.route("/").get(getThoughts).put(createThought);
+router.route("/").get(getThoughts).post(createThought);
 
 // /api/thoughts/:thoughtId
 router
   .route("/:thoughtId")
   .get(getOneThought)
-  .post(updateThought)
+  .put(updateThought)
   .delete(deleteThought);
 
 // /api/thoughts/:thoughtId/reactions
