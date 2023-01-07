@@ -32,7 +32,7 @@ const userSchema = new Schema(
 );
 
 // virtual to find number of friends
-userSchema.virtuals("friendCount").get(() => {
+userSchema.virtual("friendCount").get(() => {
   return this.friends.length;
 });
 

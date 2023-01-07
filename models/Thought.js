@@ -31,8 +31,8 @@ const thoughtSchema = new Schema(
 );
 
 // virtual to find number of reactions
-thoughtSchema.virtuals("reactionCount").get(() => {
-  return this.friends.length;
+thoughtSchema.virtual("reactionCount").get(() => {
+  return this.reactions.length;
 });
 
 const Thought = model("thought", thoughtSchema);
