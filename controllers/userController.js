@@ -5,13 +5,15 @@ module.exports = {
   getUsers(req, res) {
     User.find()
       .then((users) => res.json(users))
-      .catch((err) => res.status(500).json(err));
+      .catch((err) => {
+        res.status(500).json(err);
+        console.log(err);
+      });
   },
 
   // GET one user by its _id and populated thought and friend data
   getOneUser(req, res) {
     User.findOne({ _id: req.params.userId })
-      .select("-__v")
       .then((user) =>
         !user
           ? res.status(404).json({ message: "No user with that ID" })
@@ -63,7 +65,9 @@ module.exports = {
       { _id: req.params.userId },
       { $addToSet: { friends: req.params.friendId } },
       { runValidators: true, new: true }
-    ).catch((err) => res.status(500).json(err));
+    )
+      .then((user) => res.json(user))
+      .catch((err) => res.status(500).json(err));
   },
 
   // DELETE to remove a friend from a user's friend list
@@ -72,6 +76,8 @@ module.exports = {
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },
       { runValidators: true, new: true }
-    ).catch((err) => res.status(500).json(err));
+    )
+      .then(() => res.json({ message: "Friend deleted!" }))
+      .catch((err) => res.status(500).json(err));
   },
 };
