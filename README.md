@@ -12,6 +12,6 @@ Run ``` npm i ``` in terminal.
 Primarily used for demonstration purposes. Run ```npm run start``` to start server.
 
 ## Demonstration
-[Google Drive](!https://drive.google.com/file/d/1olljACYDigDTFbVRWnn2J540vm494t-4/view)
+[Google Drive](https://drive.google.com/file/d/1olljACYDigDTFbVRWnn2J540vm494t-4/view)
 
-[YouTube](!https://youtu.be/bT7_vRwy4Vw)
+[YouTube](https://youtu.be/bT7_vRwy4Vw)
