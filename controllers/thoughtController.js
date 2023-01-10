@@ -1,4 +1,4 @@
-const { User, Thought } = require("../models");
+const { User, Thought, Reaction } = require("../models");
 
 module.exports = {
   // GET all thoughts
@@ -64,25 +64,30 @@ module.exports = {
 
   // POST to create a reaction stored in a single thought's reactions array field
   createReaction(req, res) {
-    Reaction.create(req.body)
-      .then((reaction) => res.json(reaction))
-      .then((reactionData) => {
-        return Thought.findOneAndUpdate(
-          { _id: req.body.thoughtId },
-          { $push: { reactions: reactionData._id } },
-          { runValidators: true, new: true }
-        );
-      })
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { runValidators: true, new: true }
+    )
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: "No thought with this id!" })
+          : res.json(thought)
+      )
       .catch((err) => res.status(500).json(err));
   },
 
   // DELETE to pull and remove a reaction by the reaction's reactionId value
   deleteReaction(req, res) {
-    Reaction.findOneAndDelete({ _id: req.params.reactionId })
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { runValidators: true, new: true }
+    )
       .then((thought) =>
         !thought
-          ? res.status(404).json({ message: "No reaction with that ID" })
-          : Reaction.deleteMany({ _id: { $in: thought.reactions } })
+          ? res.status(404).json({ message: "No thought with this id!" })
+          : res.json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
